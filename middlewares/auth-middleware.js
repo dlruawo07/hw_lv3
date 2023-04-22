@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 const { Users } = require("../models");
+const { errorWithStatusCode } = require("./errorHandler");
 
 module.exports = async (req, res, next) => {
   const { Authorization } = req.cookies;
@@ -10,9 +11,7 @@ module.exports = async (req, res, next) => {
 
   // Cookie가 존재하지 않을 경우
   if (authType !== "Bearer" || authToken === "") {
-    return res
-      .status(403)
-      .json({ errorMessage: "로그인이 필요한 기능입니다." });
+    throw errorWithStatusCode("로그인이 필요한 기능입니다.", 403);
   }
 
   try {
@@ -27,11 +26,9 @@ module.exports = async (req, res, next) => {
     res.locals.user = user;
 
     next();
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    console.error(err);
     // Cookie가 비정상적이거나 만료된 경우
-    return res
-      .status(403)
-      .json({ errorMessage: "전달된 쿠키에서 오류가 발생하였습니다." });
+    throw errorWithStatusCode("전달된 쿠키에서 오류가 발생했습니다.", 403);
   }
 };
