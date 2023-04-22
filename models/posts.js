@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       postId: {
         allowNull: false,
         autoIncrement: true,
-        primaryKey: "postId",
+        primaryKey: true,
         type: DataTypes.INTEGER,
       },
       userId: {
