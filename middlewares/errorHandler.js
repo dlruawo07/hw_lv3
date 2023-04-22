@@ -9,8 +9,3 @@ module.exports = {
     return res.status(statusCode).json({ errorMessage: message });
   },
 };
-
-// module.exports = async (error, req, res, next) => {
-//   const { message } = error;
-//   console.log(error);
-// };
